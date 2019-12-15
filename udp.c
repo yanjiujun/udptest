@@ -121,7 +121,7 @@ int main(int argc,char** argv){
     
     // 计算ip头部校验和。这个校验每过一个路由器都要重新计算一遍。因为路由器会修改头部中的ttl字段。还好只要计算头部的，不然死定了，哈哈哈。
     // ～～～～～～～～～～～～～～
-    // 特别说明一下，计算校验和是可选的。如果校验和被设置为0，系统会自动计算校验和。这样更省事！
+    // 特别说明一下，计算校验和是可选的。如果ip_id被设置为0，系统会自动计算校验和。这样更省事！
     // ～～～～～～～～～～～～～～
     checksum_ip(ip);
 //    ip->ip_sum = 0;
@@ -133,7 +133,7 @@ int main(int argc,char** argv){
     udp->uh_sum = 0;
     udp->uh_ulen = htons(sizeof(struct udphdr) + data_len);
     
-    // 计算udp校验和，这里的校验和也是一样，如果被设置为0，系统会系统计算校验和！！！！
+    // 计算udp校验和，这里的校验和也是一样，如果被设置为0，对方也能接到。可能也是被系统自动计算了？
     udp->uh_sum = checksum_tcpudp(ip,udp,udp->uh_ulen,sizeof(struct udphdr) + data_len);
     printf("chsum %d\n",udp->uh_sum);
     
